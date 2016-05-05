@@ -6,7 +6,7 @@ cat > /etc/proftpd/sql.conf <<EOH
 SQLBackend      postgres
 SQLEngine       on
 SQLAuthenticate users
-SQLAuthTypes    Plaintext
+SQLAuthTypes    Crypt
 SQLConnectInfo  ${DB_NAME}@${DB_HOST} ${DB_USER} ${DB_PASS}
 SQLUserInfo     ftp.users userid passwd uid gid homedir shell
 SQLDefaultUID   $(id -u ftp)
