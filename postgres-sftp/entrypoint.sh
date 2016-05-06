@@ -5,10 +5,11 @@ cat > /etc/proftpd/sql.conf <<EOH
 <IfModule mod_sql.c>
 SQLBackend      postgres
 SQLEngine       on
-SQLAuthenticate users
+SQLAuthenticate users userset groups groupset
 SQLAuthTypes    Crypt
 SQLConnectInfo  ${DB_NAME}@${DB_HOST} ${DB_USER} ${DB_PASS}
 SQLUserInfo     ftp.users userid passwd uid gid homedir shell
+SQLGroupInfo    ftp.groups groupname gid members
 SQLDefaultUID   $(id -u ftp)
 SQLDefaultGID   $(id -g ftp)
 </IfModule>
