@@ -8,6 +8,8 @@ RUN apt-get -y update && \
 
 COPY proftpd.conf /etc/proftpd/proftpd.conf
 COPY modules.conf /etc/proftpd/modules.conf
+COPY tls.conf /etc/proftpd/tls.conf
+COPY ssl/* /etc/proftpd/ssl/
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /entrypoint.sh

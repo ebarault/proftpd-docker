@@ -1,6 +1,5 @@
-CREATE ROLE proftp UNENCRYPTED PASSWORD 'change_me' NOSUPERUSER NOCREATEDB NOCREATEROLE INHERIT LOGIN;
 CREATE SCHEMA ftp;
-GRANT USAGE ON SCHEMA ftp TO proftp;
+GRANT USAGE ON SCHEMA ftp TO xydatadev_user;
 
 CREATE TABLE ftp.users (
   pkid      serial      PRIMARY KEY,
@@ -11,7 +10,14 @@ CREATE TABLE ftp.users (
   homedir   text,
   shell     text
 );
-GRANT SELECT ON ftp.users TO proftp;
+GRANT SELECT ON ftp.users TO xydatadev_user;
+
+CREATE TABLE groups (
+        groupname text NOT NULL,
+        gid integer,
+        members text
+);
+GRANT SELECT ON ftp.groups TO xydatadev_user;
 
 CREATE TABLE ftp.file_log (
   pkid               serial      PRIMARY KEY,
@@ -22,5 +28,5 @@ CREATE TABLE ftp.file_log (
   time_transaction   text,
   ts_in              timestamp with time zone   NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-GRANT INSERT ON ftp.file_log TO proftp;
-GRANT UPDATE ON TABLE ftp.file_log_pkid_seq TO proftp;
+GRANT INSERT ON ftp.file_log TO xydatadev_user;
+GRANT UPDATE ON TABLE ftp.file_log_pkid_seq TO xydatadev_user;
