@@ -15,5 +15,5 @@ services:
         source: "${SSL_CERTS:-./ssl}"
         target: /etc/proftpd/ssl
       - type: bind
-        source: "${MOD_EXEC_CONF:./exec}"
+        source: "${MOD_EXEC_CONF:-./exec}"
         target: "/etc/proftpd/exec"
