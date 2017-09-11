@@ -1,3 +1,5 @@
+#!/bin/bash
+
 function onConnectedUser() {
   echo "User $1 successfully connected" >> /var/log/proftpd/exec_onConnect.log
 }

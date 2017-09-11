@@ -17,14 +17,13 @@ RUN chmod a+x /entrypoint.sh
 VOLUME /var/log/proftpd
 
 # FTP ROOT
-VOLUME ["/srv/ftp"]
-RUN chown ftp:nogroup /srv/ftp
+VOLUME /srv/ftp
 
 # SSL CERTS
-VOLUME ["/etc/proftpd/ssl"]
+VOLUME /etc/proftpd/ssl
 
 # MOD EXEC CONF
-VOLUME ["/etc/proftpd/exec"]
+VOLUME /etc/proftpd/exec
 
 EXPOSE 21 23 49152-49407
 

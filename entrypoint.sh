@@ -32,4 +32,7 @@ SFTPHostKey /etc/ssh/ssh_host_ecdsa_key
 </IfModule mod_sftp.c>
 EOH
 
+# allow proftpd writing custom logs
+chown -R proftpd:nogroup /var/log/proftpd
+
 exec /usr/sbin/proftpd --nodaemon -DMOD_EXEC=$MOD_EXEC
