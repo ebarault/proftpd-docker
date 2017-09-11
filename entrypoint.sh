@@ -32,4 +32,4 @@ SFTPHostKey /etc/ssh/ssh_host_ecdsa_key
 </IfModule mod_sftp.c>
 EOH
 
-exec /usr/sbin/proftpd --nodaemon
+exec /usr/sbin/proftpd --nodaemon -DMOD_EXEC=$MOD_EXEC
