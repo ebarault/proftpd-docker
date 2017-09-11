@@ -6,8 +6,14 @@ services:
     network_mode: host
     volumes:
       - type: bind
+        source: ${LOGS:-/var/log/proftpd}
+        target: /var/log/proftpd
+      - type: bind
         source: "${FTP_ROOT}"
         target: /srv/ftp
       - type: bind
         source: "${SSL_CERTS:-./ssl}"
         target: /etc/proftpd/ssl
+      - type: bind
+        source: "${MOD_EXEC_CONF:./exec}"
+        target: "/etc/proftpd/exec"

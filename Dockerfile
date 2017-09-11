@@ -13,12 +13,18 @@ COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /entrypoint.sh
 
-# SSL CERTS
-VOLUME ["/etc/proftpd/ssl"]
+# PROFTPD LOGS
+VOLUME /var/log/proftpd
 
 # FTP ROOT
 VOLUME ["/srv/ftp"]
 RUN chown ftp:nogroup /srv/ftp
+
+# SSL CERTS
+VOLUME ["/etc/proftpd/ssl"]
+
+# MOD EXEC CONF
+VOLUME ["/etc/proftpd/exec"]
 
 EXPOSE 21 23 49152-49407
 
