@@ -1,10 +1,10 @@
-version: '3'
+version: '3.2'
 services:
   proftpd:
     env_file: .env
     build: .
     network_mode: host
-    volume:
+    volumes:
       - type: bind
-      - source: "${FTP_ROOT}"
-      - target: /srv/ftp
+        source: "${FTP_ROOT}"
+        target: /srv/ftp
