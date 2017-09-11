@@ -6,7 +6,7 @@ services:
     network_mode: host
     volumes:
       - type: bind
-        source: ${LOGS:-/var/log/proftpd}
+        source: "${LOGS:-/var/log/proftpd}"
         target: /var/log/proftpd
       - type: bind
         source: "${FTP_ROOT}"
