@@ -4,6 +4,7 @@ services:
     env_file: .env
     build: .
     network_mode: host
+    user: "${FTP_USER}"
     volumes:
       - type: bind
         source: "${FTP_ROOT}"
