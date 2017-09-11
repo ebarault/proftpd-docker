@@ -5,6 +5,7 @@ cat > /etc/proftpd/sql.conf <<EOH
 <IfModule mod_sql.c>
 SQLBackend      postgres
 SQLEngine       on
+SQLLogFile      /var/log/proftpd/sql.log
 SQLAuthenticate users userset groups groupset
 SQLAuthTypes    Crypt
 SQLConnectInfo  ${FTP_DB_NAME}@${FTP_DB_HOST} ${FTP_DB_USER} ${FTP_DB_PASS}
@@ -21,6 +22,7 @@ cat > /etc/proftpd/sftp.conf <<EOH
 <VirtualHost $(hostname)>
 Port 23
 SFTPEngine on
+SFTPLog /var/log/proftpd/sftp.log
 SFTPAuthMethods password
 SFTPOptions IgnoreSFTPSetPerms IgnoreSFTPUploadPerms IgnoreSFTPSetTimes
 SFTPHostKey /etc/ssh/ssh_host_dsa_key
