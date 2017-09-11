@@ -8,3 +8,6 @@ services:
       - type: bind
         source: "${FTP_ROOT}"
         target: /srv/ftp
+      - type: bind
+        source: "${SSL_CERTS:-./ssl"
+        target: /etc/proftpd/ssl

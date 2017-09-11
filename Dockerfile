@@ -1,5 +1,5 @@
 FROM ubuntu:14.04
-MAINTAINER "@SenorLlama"
+MAINTAINER "@ebarault"
 
 RUN apt-get -y update && \
     echo 'proftpd-basic shared/proftpd/inetd_or_standalone select standalone' | debconf-set-selections && \
@@ -9,11 +9,14 @@ RUN apt-get -y update && \
 COPY proftpd.conf /etc/proftpd/proftpd.conf
 COPY modules.conf /etc/proftpd/modules.conf
 COPY tls.conf /etc/proftpd/tls.conf
-COPY ssl/* /etc/proftpd/ssl/
 COPY entrypoint.sh /entrypoint.sh
 
 RUN chmod a+x /entrypoint.sh
 
+# SSL CERTS
+VOLUME ["/etc/proftpd/ssl"]
+
+# FTP ROOT
 VOLUME ["/srv/ftp"]
 RUN chown ftp:nogroup /srv/ftp
 

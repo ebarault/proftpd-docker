@@ -7,7 +7,7 @@ SQLBackend      postgres
 SQLEngine       on
 SQLAuthenticate users userset groups groupset
 SQLAuthTypes    Crypt
-SQLConnectInfo  ${DB_NAME}@${DB_HOST} ${DB_USER} ${DB_PASS}
+SQLConnectInfo  ${FTP_DB_NAME}@${FTP_DB_HOST} ${FTP_DB_USER} ${FTP_DB_PASS}
 SQLUserInfo     ftp.users userid passwd uid gid homedir shell
 SQLGroupInfo    ftp.groups groupname gid members
 SQLDefaultUID   $(id -u ftp)
