@@ -3,14 +3,15 @@ MAINTAINER "@ebarault"
 
 RUN apt-get -y update && \
     echo 'proftpd-basic shared/proftpd/inetd_or_standalone select standalone' | debconf-set-selections && \
-    apt-get -y install proftpd-basic proftpd-mod-pgsql && \
-    apt-get -y --no-install-recommends install openssh-server
+    apt-get -y install proftpd-basic proftpd-mod-pgsql
 
+# CONF FILES
 COPY proftpd.conf /etc/proftpd/proftpd.conf
 COPY modules.conf /etc/proftpd/modules.conf
 COPY tls.conf /etc/proftpd/tls.conf
-COPY entrypoint.sh /entrypoint.sh
+COPY sql.conf /etc/proftpd/sql.conf
 
+COPY entrypoint.sh /entrypoint.sh
 RUN chmod a+x /entrypoint.sh
 
 # PROFTPD LOGS
