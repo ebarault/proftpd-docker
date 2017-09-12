@@ -24,7 +24,6 @@ RUN groupadd proftpd && \
 
 # CONF FILES
 COPY proftpd.conf /etc/proftpd/proftpd.conf
-COPY modules.conf /etc/proftpd/modules.conf
 COPY tls.conf /etc/proftpd/tls.conf
 COPY sql.conf /etc/proftpd/sql.conf
 

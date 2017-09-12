@@ -1,11 +1,13 @@
-# docker-proftpd
-Varying configurations of ProFtpd installs
+## proftpd-docker
 
-## Setup
-* Install the Docker Toolbox https://docs.docker.com/mac/step_one/
+## Requirements
+- docker
+- (docker-compose)
 
-## Using ProFtpd
-* Change directory into desired flavor
+## Running with docker-compose
+
+## Running with docker
+
 * Build image:
 ```
 docker build -t proftpd .
