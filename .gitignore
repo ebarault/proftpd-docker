@@ -1,2 +1,4 @@
 .env
 *.pem
+salt/*
+!salt/.gitkeep

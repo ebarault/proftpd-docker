@@ -40,6 +40,9 @@ VOLUME /srv/ftp
 # SSL CERTS
 VOLUME /etc/proftpd/ssl
 
+# SQL PASSWORD SALT
+VOLUME /etc/proftpd/salt
+
 # MOD EXEC CONF
 VOLUME /etc/proftpd/exec
 

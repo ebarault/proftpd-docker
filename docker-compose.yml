@@ -9,7 +9,7 @@ services:
         source: "${LOGS:-/var/log/proftpd}"
         target: /var/log/proftpd
       - type: bind
-        source: "${FTP_ROOT}"
+        source: "${FTP_ROOT:-/data/ftp_root}"
         target: /srv/ftp
       - type: bind
         source: "${SSL_CERTS:-./ssl}"
@@ -17,3 +17,6 @@ services:
       - type: bind
         source: "${MOD_EXEC_CONF:-./exec}"
         target: "/etc/proftpd/exec"
+      - type: bind
+        source: "${SALT:-./salt}"
+        target: "/etc/proftpd/salt"
