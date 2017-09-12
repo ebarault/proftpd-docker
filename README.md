@@ -5,10 +5,10 @@
 - docker
 - (docker-compose)
 - PostgreSQL instance
-- Creating the necessary tables on the PostgreSQL instance using the included migration: `proftp_tables.sql`.
+- Creating the necessary tables on the PostgreSQL instance using the included migration: `sql/proftp_tables.sql`.
 - openssl (for creating passwords)
 
-## Running with docker-compose
+## Running with docker-compose, building image
 
 * Create a `.env` containing the requirements environnement variables
 
@@ -36,7 +36,35 @@ docker-compose up -d
 ```
 
 ### Configuring postgreSQL connection
+Refer to this [link](http://www.proftpd.org/docs/howto/SQL.html) and on `sql/proftpd_tables.sql` file for detailed information on required SQL data model.
+
+The migration should be run by a user with owner privilege on the designated database. The script supposes a second user exists beforehand, whose privileges are managed by the migration.
+
 The `FTP_DB_HOST`, `FTP_DB_NAME`, `FTP_DB_USER` and `FTP_DB_PASS` env vars should be provided to the container to configure proftpd's connection with the postgreSQL instance.
+
+### Create users and groups
+First create a group, or make sure an appropriate group already exists. The main attributes for groups are:
+- **groupname** (unique)
+- **gid** (unique, in [999-65533] as per the server config)
+
+```sql
+INSERT INTO ftp.groups
+(groupname, gid)
+VALUES('users', 999);
+```
+
+Then create the user. The required attributes are:
+- **userid** (unique)
+- **passwd** (salted sh256/512 hash, covered in next section)
+- **uid** (unique, in [999-65533] as per the server config)
+- **gid** (referencing an existing group id)
+- **home** (absolute path to user's home `/srv/ftp/...` , created at first connection if required)
+
+```sql
+INSERT INTO ftp.users
+(userid, passwd, uid, gid, homedir)
+VALUES('JonDoe', 'am4Q3ukBh...QXg2UeRms=', 999, 999, '/srv/ftp/homes/jon_doe');
+```
 
 ### User's passwords
 Passwords are stored in the db as salted SHA256/512 digests, in hex64 encoding.
@@ -72,6 +100,28 @@ These file should be stored in a directory accessible by the docker image, whose
 When enabling the module with env var MOD_EXEC=ON, a `exec.conf` file containing the module configuration should be provided, as per the [module's documentation](http://www.proftpd.org/docs/contrib/mod_exec.html).
 
 This file should be stored in a directory accessible by the docker image, whose path is to be provided as the `MOD_EXEC_CONF` env var.
+
+## Running with docker-compose, pulling image from docker hub
+
+With `docker-compose-image.yml` an example is provided on how to integrate the proftpd-docker image hosted on docker hub inside a larger set-up, orchestrated with docker-compose.
+
+Literally the main point is to declare the volume attachments inside the `docker-compose.yml` file as in:
+```yml
+volumes:
+  - type: bind
+    source: "${LOGS:-/var/log/proftpd}"
+    target: /var/log/proftpd
+```
+
+The example relies on bound volumes but again any kind of volume you do.
+
+_**Just mind:**_
+- covering all required volumes as described in the **Running with docker** section,
+- exposing any required port (or dropping `network_mode: host`)
+- passing the env vars (with env_file or environment directive, or plain env vars)
+
+when ok, run `docker-compose -f docker-compose-image.yml run`
+**...and you're all set!**
 
 
 ## Running with docker
