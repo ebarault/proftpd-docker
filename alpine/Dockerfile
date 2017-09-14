@@ -1,23 +1,30 @@
-FROM ubuntu:16.04
+FROM alpine:3.6
 MAINTAINER "@ebarault"
 
-RUN apt-get -y update && \
-  apt-get -y install git curl postgresql-client build-essential libssl-dev libpq-dev openssl
-
-# RUN curl -o proftpd.tar.gz ftp://ftp.proftpd.org/distrib/source/proftpd-1.3.6rc4.tar.gz && \
-#   tar zxvf proftpd.tar.gz
-
-# RUN cd proftpd-1.3.6rc4 && \
+RUN set -x && \
+  apk add --no-cache --virtual .persistent-deps \
+    ca-certificates \
+    curl \
+    postgresql-client && \
+  apk add --no-cache --virtual .build-deps \
+    git \
+    build-base \
+    postgresql-dev
 
 RUN git clone https://github.com/proftpd/proftpd.git
 
 RUN cd proftpd && \
+  sed -i 's/__mempcpy/mempcpy/g' lib/pr_fnmatch.c && \
   ./configure --sysconfdir=/etc/proftpd --localstatedir=/var/proftpd --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls --enable-openssl --disable-ident && \
   make && \
-  make install
+  make install && \
+  cd ../ && \
+  rm -rf proftpd && \
+  apk del .build-deps
 
-RUN groupadd proftpd && \
-  useradd -g proftpd proftpd
+# man adduser: https://linux.die.net/man/1/busybox
+RUN addgroup proftpd && \
+  adduser -H -D -G proftpd proftpd
 
 # CONF FILES
 COPY proftpd.conf /etc/proftpd/proftpd.conf

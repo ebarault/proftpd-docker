@@ -1,8 +1,8 @@
-#!/bin/bash
+#!/bin/sh
 
 PROFTPD_ARGS="-DMOD_EXEC=$MOD_EXEC -DMOD_SSL=$MOD_SSL"
 
-if [ "$MASQ_ADDR" == "AWS" ]; then
+if [ "$MASQ_ADDR" = "AWS" ]; then
 	MASQ_ADDR=`curl -f -s http://169.254.169.254/latest/meta-data/public-ipv4`
 fi
 
