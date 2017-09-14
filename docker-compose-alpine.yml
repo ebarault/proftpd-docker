@@ -3,8 +3,8 @@ services:
   proftpd:
     env_file: .env
     build:
-      context: ../
-      dockerfile: alpine/Dockerfile
+      context: ./
+      dockerfile: Dockerfile-alpine
     network_mode: host
     volumes:
       - type: bind
