@@ -2,6 +2,7 @@ FROM alpine:3.6
 MAINTAINER "@ebarault"
 
 RUN set -x && \
+  apk update && \
   apk add --no-cache --virtual .persistent-deps \
     ca-certificates \
     curl \
@@ -11,11 +12,18 @@ RUN set -x && \
     build-base \
     postgresql-dev
 
-RUN git clone https://github.com/proftpd/proftpd.git
+RUN git clone https://github.com/proftpd/proftpd.git && \
+    git clone https://github.com/Castaglia/proftpd-mod_vroot.git
+
+RUN cd proftpd-mod_vroot && \
+    git checkout tags/v0.9.5 && \
+    cd ..
+
+RUN mv proftpd-mod_vroot proftpd/contrib/mod_vroot
 
 RUN cd proftpd && \
   sed -i 's/__mempcpy/mempcpy/g' lib/pr_fnmatch.c && \
-  ./configure --sysconfdir=/etc/proftpd --localstatedir=/var/proftpd --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls --enable-openssl --disable-ident && \
+  ./configure --sysconfdir=/etc/proftpd --localstatedir=/var/proftpd --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls:mod_exec:mod_vroot --enable-openssl --disable-ident && \
   make && \
   make install && \
   cd ../ && \
@@ -48,6 +56,9 @@ VOLUME /etc/proftpd/salt
 
 # MOD EXEC CONF
 VOLUME /etc/proftpd/exec
+
+# MOD VROOT CONF
+VOLUME /etc/proftpd/vroot
 
 EXPOSE 21 49152-49407
 

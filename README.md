@@ -28,6 +28,8 @@ The required/optional parameters are described here after:
 - **SSL_CERTS**: /path/to/ssl/certs/dir, optional, defaults to `./ssl`
 - **MOD_EXEC**: ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
 - **MOD_EXEC_CONF**: /path/to/mod/exec/dir, optional, defaults to `./exec`
+- **MOD_VROOT**: ON/OFF, activate/desactivate module_vroot, optional, default to OFF
+- **MOD_VROOT_CONF**: /path/to/mod/vroot/dir, optional, defaults to `./vroot`
 
 * Build and run the container as follows:
 ```sh
@@ -100,6 +102,11 @@ These file should be stored in a directory accessible by the docker image, whose
 When enabling the module with env var MOD_EXEC=ON, a `exec.conf` file containing the module configuration should be provided, as per the [module's documentation](http://www.proftpd.org/docs/contrib/mod_exec.html).
 
 This file should be stored in a directory accessible by the docker image, whose path is to be provided as the `MOD_EXEC_CONF` env var.
+
+### Module mod_vroot
+When enabling the module with env var MOD_VROOT=ON, a vroot.conf file containing the module configuration should be provided, as per the [module's documentation](http://www.proftpd.org/docs/contrib/mod_vroot.html)
+
+This file should be stored in a directory accessible by the docker image, whose path is to be provided as the `MOD_VROOT_CONF` env var.
 
 ## Running with docker-compose, pulling image from docker hub
 
