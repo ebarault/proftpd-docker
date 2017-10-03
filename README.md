@@ -143,12 +143,14 @@ Following the previous sections, a number a env vars and volumes needs to be spe
   - `MASQ_ADDR`
   - `MOD_SSL`
   - `MOD_EXEC`
+  - `MOD_VROOT`
 - **Volumes**:
   - **/srv/ftp** (_ftp root containing users' homes_)
   - **/var/log/proftpd** (_server's logs_)
   - **/etc/proftpd/salt** (_dir containing `.salt` file_)
   - **/etc/proftpd/ssl** (_dir containing server's certificates_)
   - **/etc/proftpd/exec** (_dir containing server's mod_exec conf and scripts_)
+  - **/etc/proftpd/vroot** (_dir containing server's mod_vroot conf_)
 
 The following `docker run` example assumes bound volumes, but the anykind of docker volume config can be used.
 
@@ -169,6 +171,8 @@ docker run --name proftpd --net=host \
   -v $(pwd)/ssl:/etc/proftpd/ssl \
   -e MOD_EXEC=ON \
   -v $(pwd)/exec:/etc/proftpd/exec \
+  -e MOD_VROOT=ON \
+  -v $(pwd)/vroot:/etc/proftpd/vroot
 	-d proftpd
 ```
 
