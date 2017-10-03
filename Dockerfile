@@ -9,10 +9,17 @@ RUN apt-get -y update && \
 
 # RUN cd proftpd-1.3.6rc4 && \
 
-RUN git clone https://github.com/proftpd/proftpd.git
+RUN git clone https://github.com/proftpd/proftpd.git && \
+    git clone https://github.com/Castaglia/proftpd-mod_vroot.git
+
+RUN cd proftpd-mod_vroot && \
+    git checkout tags/v0.9.5 && \
+    cd ..
+
+RUN mv proftpd-mod_vroot proftpd/contrib/mod_vroot
 
 RUN cd proftpd && \
-  ./configure --sysconfdir=/etc/proftpd --localstatedir=/var/proftpd --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls --enable-openssl --disable-ident && \
+  ./configure --sysconfdir=/etc/proftpd --localstatedir=/var/proftpd --with-modules=mod_sql:mod_sql_postgres:mod_sql_passwd:mod_tls:mod_exec:mod_vroot --enable-openssl --disable-ident && \
   make && \
   make install
 
@@ -41,6 +48,9 @@ VOLUME /etc/proftpd/salt
 
 # MOD EXEC CONF
 VOLUME /etc/proftpd/exec
+
+# MOD VROOT CONF
+VOLUME /etc/proftpd/vroot
 
 EXPOSE 21 49152-49407
 

@@ -18,6 +18,8 @@ run:
 		-v $$(pwd)/ssl:/etc/proftpd/ssl \
 		-e MOD_EXEC=ON \
 		-v $$(pwd)/exec:/etc/proftpd/exec \
+		-e MOD_VROOT=ON \
+		-v $$(pwd)/vroot:/etc/proftpd/vroot \
 		-d proftpd
 
 env_run:

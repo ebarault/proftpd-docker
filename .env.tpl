@@ -13,3 +13,6 @@ SSL_CERTS=      # /path/to/ssl/certs/dir, optional, defaults to `./ssl`
 
 MOD_EXEC=       # ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
 MOD_EXEC_CONF=  # /path/to/mod/exec/dir, optional, defaults to `./exec`
+
+MOD_VROOOT=     # ON/OFF, activate/desactivate module mod_vroot, optionnal, default to OFF
+MOD_VROOT_CONF= # /path/to/mod/vroot/dir, optional, defaults to `./vroot`
