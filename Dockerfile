@@ -46,9 +46,6 @@ VOLUME /etc/proftpd/certs
 # SQL PASSWORD SALT
 VOLUME /etc/proftpd/salt
 
-# OVERRIDING MOD TLS CONF
-VOLUME /etc/proftpd/tls.conf
-
 # MOD EXEC CONF
 VOLUME /etc/proftpd/exec
 
