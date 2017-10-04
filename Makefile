@@ -14,8 +14,8 @@ run:
 		-v $$FTP_ROOT:/srv/ftp \
 		-v $$LOGS:/var/log/proftpd \
 		-v $$(pwd)/salt:/etc/proftpd/salt \
-		-e MOD_SSL=ON \
-		-v $$(pwd)/ssl:/etc/proftpd/ssl \
+		-e MOD_TLS=ON \
+		-v $$(pwd)/certs:/etc/proftpd/certs \
 		-e MOD_EXEC=ON \
 		-v $$(pwd)/exec:/etc/proftpd/exec \
 		-e MOD_VROOT=ON \

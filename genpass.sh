@@ -8,8 +8,8 @@ function help {
   echo "password formula is: [ SHA256( SALT + password ) ].hex64"
   echo " "
   echo "usage:"
-  echo "$package -s salt/.sh password"
-  echo "$package --salt salt/.sh password"
+  echo "$package -s path/to/salt password"
+  echo "$package --salt path/to/salt password"
 }
 
 
@@ -21,7 +21,7 @@ if [ "${1}" != '-s' ] && [ "${1}" != '-h' ]; then
   echo " "
   echo "Please specify the path to the salt file"
   echo " "
-  echo "Example : $package -s salt/.sh password"
+  echo "Example : $package -s path/to/salt password"
   echo " "
   exit -1
 else

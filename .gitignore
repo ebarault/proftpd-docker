@@ -2,3 +2,5 @@
 *.pem
 salt/*
 !salt/.gitkeep
+var_log_proftpd
+data_ftp_root

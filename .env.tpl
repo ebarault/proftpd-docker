@@ -8,8 +8,9 @@ LOGS=           # /path/to/log/dir, optional, defaults to /var/log/proftpd
 SALT=           # /path/to/salt/dir, optional, defaults to `./salt`
 MASQ_ADDR=			#	ipv4_addr, hostname or "AWS", optional
 
-MOD_SSL=        # ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
-SSL_CERTS=      # /path/to/ssl/certs/dir, optional, defaults to `./ssl`
+MOD_TLS=        # ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
+MOD_TLS_CONF=		# /path/to/tls.conf configuration file, defaults to ./tls.conf
+CERTS=      		# /path/to/tls/certs/dir, optional, defaults to `./certs`
 
 MOD_EXEC=       # ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
 MOD_EXEC_CONF=  # /path/to/mod/exec/dir, optional, defaults to `./exec`

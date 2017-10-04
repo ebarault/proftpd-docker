@@ -40,11 +40,14 @@ VOLUME /var/log/proftpd
 # FTP ROOT
 VOLUME /srv/ftp
 
-# SSL CERTS
-VOLUME /etc/proftpd/ssl
+# TLS CERTS
+VOLUME /etc/proftpd/certs
 
 # SQL PASSWORD SALT
 VOLUME /etc/proftpd/salt
+
+# OVERRIDING MOD TLS CONF
+VOLUME /etc/proftpd/tls.conf
 
 # MOD EXEC CONF
 VOLUME /etc/proftpd/exec

@@ -24,8 +24,9 @@ The required/optional parameters are described here after:
 - **FTP_ROOT**: /path/to/ftp/root, optional, defaults to /data/ftp_root
 - **LOGS**: /path/to/log/dir, optional, defaults to /var/log/proftpd
 - **SALT**: /path/to/salt/dir, optional, defaults to `./salt`
-- **MOD_SSL**: ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
-- **SSL_CERTS**: /path/to/ssl/certs/dir, optional, defaults to `./ssl`
+- **MOD_TLS**: ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
+- **MOD_TLS_CONF**: /path/to/mod/tls/conf/file, optional, defaults to included tls.conf
+- **CERTS**: /path/to/tls/certs/dir, optional, defaults to `./certs`
 - **MOD_EXEC**: ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
 - **MOD_EXEC_CONF**: /path/to/mod/exec/dir, optional, defaults to `./exec`
 - **MOD_VROOT**: ON/OFF, activate/desactivate module_vroot, optional, default to OFF
@@ -77,10 +78,16 @@ The `SALT` env var let you define the directory where the `.salt` file is stored
 
 To generate an encrypted password use the following command:
 ```sh
-{ echo -n myPassword; echo -n $(cat .salt); } | openssl dgst -binary -sha256 | openssl enc -base64 -A
+{ echo -n myPassword; echo -n $(cat salt/.salt); } | openssl dgst -binary -sha256 | openssl enc -base64 -A
 ```
 
 where `.salt` is a file containing the **salt**.
+
+The helper script `genpass.sh` is also provided in this distribution:
+The usage is as follows:
+```sh
+package -s path/to/salt password
+```
 
 ### Server address masquerading
 The server can be instructed to send back to the client a specified IP address, or hostname. This is useful when dealing with NAT gateways, or boad balancers where passive mode is required.
@@ -94,9 +101,9 @@ The ftp root (home for all user's directories) can be configured using the `FTP_
 The ftp root (home for all user's directories) can be configured using the `LOGS` env variable. Otherwise it default to the directory `/var/log/proftpd` of the docker's host.
 
 ### Module mod_tls
-When enabling the module with env var MOD_EXEC=ON, a SSL certificate `proftpd.cert.pem` and it's key file `proftpd.key.pem` should be provided.
+When enabling the module with env var MOD_TLS=ON, a module configuration file and associated certificates should be provided as binded volumes. Default included configuration expects a self-signed TLS certificate `proftpd.cert.pem` and it's key file `proftpd.key.pem`.
 
-These file should be stored in a directory accessible by the docker image, whose path is to be provided as the `SSL_CERTS` env var.
+Certificates should be stored in a directory accessible by the docker image, whose path is to be provided as the `CERTS` env var.
 
 ### Module mod_exec
 When enabling the module with env var MOD_EXEC=ON, a `exec.conf` file containing the module configuration should be provided, as per the [module's documentation](http://www.proftpd.org/docs/contrib/mod_exec.html).
@@ -141,14 +148,15 @@ Following the previous sections, a number a env vars and volumes needs to be spe
   - `FTP_DB_USER`
   - `FTP_DB_PASS`
   - `MASQ_ADDR`
-  - `MOD_SSL`
+  - `MOD_TLS`
   - `MOD_EXEC`
   - `MOD_VROOT`
 - **Volumes**:
   - **/srv/ftp** (_ftp root containing users' homes_)
   - **/var/log/proftpd** (_server's logs_)
   - **/etc/proftpd/salt** (_dir containing `.salt` file_)
-  - **/etc/proftpd/ssl** (_dir containing server's certificates_)
+  - **/etc/proftpd/tls.conf** (_mod_tls config file_)
+  - **/etc/proftpd/certs** (_dir containing server's certificates_)
   - **/etc/proftpd/exec** (_dir containing server's mod_exec conf and scripts_)
   - **/etc/proftpd/vroot** (_dir containing server's mod_vroot conf_)
 
@@ -167,8 +175,9 @@ docker run --name proftpd --net=host \
   -v /data/ftp_root:/srv/ftp \
   -v /var/log/proftpd:/var/log/proftpd \
   -v $(pwd)/salt:/etc/proftpd/salt \
-  -e MOD_SSL=ON \
-  -v $(pwd)/ssl:/etc/proftpd/ssl \
+  -e MOD_TLS=ON \
+  -v $(pwd)/tls.conf:/etc/proftpd/tls.conf \
+  -v $(pwd)/certs:/etc/proftpd/certs \
   -e MOD_EXEC=ON \
   -v $(pwd)/exec:/etc/proftpd/exec \
   -e MOD_VROOT=ON \
