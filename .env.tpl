@@ -9,11 +9,11 @@ SALT=           # /path/to/salt/dir, optional, defaults to `./salt`
 MASQ_ADDR=			#	ipv4_addr, hostname or "AWS", optional
 
 MOD_TLS=        # ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
-MOD_TLS_CONF=		# /path/to/mod_tls.conf configuration file, defaults to ./tls.conf
+MOD_TLS_CONF=		# /path/to/mod_tls.conf configuration file, defaults to `./tls.conf`
 CERTS=      		# /path/to/tls_certs/dir, optional, defaults to `./certs`
 
 MOD_EXEC=       # ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
-MOD_EXEC_DIR=  # /path/to/mod_exec/dir, optional, defaults to `./exec`
+MOD_EXEC_DIR=  	# /path/to/mod_exec/dir, optional, defaults to `./exec`
 
 MOD_VROOOT=     # ON/OFF, activate/desactivate module mod_vroot, optionnal, default to OFF
-MOD_VROOT_CONF= # /path/to/mod_vroot.conf, optional, defaults to `./vroot`
+MOD_VROOT_CONF= # /path/to/mod_vroot.conf, optional, defaults to `./vroot.conf`
