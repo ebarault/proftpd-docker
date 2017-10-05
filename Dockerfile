@@ -1,8 +1,6 @@
 FROM ubuntu:16.04
 MAINTAINER "@ebarault"
 
-ARG
-
 RUN apt-get -y update && \
   apt-get -y install git curl postgresql-client build-essential libssl-dev libpq-dev openssl
 
