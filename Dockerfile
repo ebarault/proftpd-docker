@@ -1,6 +1,8 @@
 FROM ubuntu:16.04
 MAINTAINER "@ebarault"
 
+ARG
+
 RUN apt-get -y update && \
   apt-get -y install git curl postgresql-client build-essential libssl-dev libpq-dev openssl
 
@@ -35,9 +37,6 @@ COPY sql.conf /etc/proftpd/sql.conf
 COPY vroot.conf /etc/proftpd/vroot.conf
 COPY ./certs /etc/proftpd/certs
 COPY ./exec /etc/proftpd/exec
-
-# creating salt file from environment variable
-RUN echo ${PWD_SALT} > /etc/proftpd/.salt
 
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod a+x ./entrypoint.sh

@@ -10,6 +10,8 @@ if [ ! -z "$MASQ_ADDR" ]; then
 	PROFTPD_ARGS="$PROFTPD_ARGS -DUSE_MASQ_ADDR"
 fi
 
+echo $PWD_SALT > /etc/proftpd/.salt
+
 # allow proftpd writing custom logs
 chown -R proftpd:proftpd /var/log/proftpd
 
