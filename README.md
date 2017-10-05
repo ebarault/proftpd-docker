@@ -23,7 +23,7 @@ The required/optional parameters are described here after:
 - **FTP_DB_PASS**: db password, required
 - **FTP_ROOT**: /path/to/ftp/root, optional, defaults to /data/ftp_root
 - **LOGS**: /path/to/log/dir, optional, defaults to /var/log/proftpd
-- **SALT**: /path/to/salt/dir, optional, defaults to `./salt`
+- **SALT**: /path/to/salt/file, optional, defaults to `./.salt`
 - **MOD_TLS**: ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
 - **MOD_TLS_CONF**: /path/to/mod_tls.conf, optional, defaults to included tls.conf
 - **CERTS**: /path/to/tls/certs/dir, optional, defaults to `./certs`
@@ -160,7 +160,7 @@ Following the previous sections, a number a env vars and volumes needs to be spe
   - **/etc/proftpd/tls.conf** (_mod_tls config file_)
   - **/etc/proftpd/certs** (_dir containing server's certificates_)
   - **/etc/proftpd/exec** (_dir containing server's mod_exec conf and scripts_)
-  - **/etc/proftpd/vroot.conf** (_mod_vroot config file@_)
+  - **/etc/proftpd/vroot.conf** (_mod_vroot config file_)
 
 The following `docker run` example assumes bound volumes, but the anykind of docker volume config can be used.
 
