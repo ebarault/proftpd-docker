@@ -13,13 +13,14 @@ run:
 		-e MASQ_ADDR=$$MASQ_ADDR \
 		-v $$FTP_ROOT:/srv/ftp \
 		-v $$LOGS:/var/log/proftpd \
-		-v $$(pwd)/salt:/etc/proftpd/salt \
+		-v $$(pwd)/.salt:/etc/proftpd/.salt \
 		-e MOD_TLS=ON \
+		-v $$(pwd)/tls.conf:/etc/proftpd/tls.conf \
 		-v $$(pwd)/certs:/etc/proftpd/certs \
 		-e MOD_EXEC=ON \
 		-v $$(pwd)/exec:/etc/proftpd/exec \
 		-e MOD_VROOT=ON \
-		-v $$(pwd)/vroot:/etc/proftpd/vroot \
+		-v $$(pwd)/.vroot.conf:/etc/proftpd/vroot.conf \
 		-d proftpd
 
 env_run:

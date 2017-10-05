@@ -25,12 +25,12 @@ The required/optional parameters are described here after:
 - **LOGS**: /path/to/log/dir, optional, defaults to /var/log/proftpd
 - **SALT**: /path/to/salt/dir, optional, defaults to `./salt`
 - **MOD_TLS**: ON/OFF, activate/deactivate module mod_tls, optional, defaults to OFF
-- **MOD_TLS_CONF**: /path/to/mod/tls/conf/file, optional, defaults to included tls.conf
+- **MOD_TLS_CONF**: /path/to/mod_tls.conf, optional, defaults to included tls.conf
 - **CERTS**: /path/to/tls/certs/dir, optional, defaults to `./certs`
 - **MOD_EXEC**: ON/OFF, activate/deactivate module mod_exec, optional, defaults to OFF
-- **MOD_EXEC_CONF**: /path/to/mod/exec/dir, optional, defaults to `./exec`
+- **MOD_EXEC_DIR**: /path/to/mod/exec/dir, optional, defaults to `./exec`
 - **MOD_VROOT**: ON/OFF, activate/desactivate module_vroot, optional, default to OFF
-- **MOD_VROOT_CONF**: /path/to/mod/vroot/dir, optional, defaults to `./vroot`
+- **MOD_VROOT_CONF**: /path/to/mod_vroot.conf, optional, defaults to included vroot.conf
 
 * Build and run the container as follows:
 ```sh
@@ -74,11 +74,11 @@ Passwords are stored in the db as salted SHA256/512 digests, in hex64 encoding.
 
 A random crypto string, known as **salt**, is used to mitigate dictionnary attacks and should be provided to the ftp server using the `SALT` env var.
 
-The `SALT` env var let you define the directory where the `.salt` file is stored on the docker's host. Otherwise proftp will look in the `./salt` directory alongside the Dockerfile.
+The `SALT` env var let you define the path to a salt file mounted as a bound volume in the docker container. By default the container will look at a `.salt` file stored along the Dockerfile.
 
 To generate an encrypted password use the following command:
 ```sh
-{ echo -n myPassword; echo -n $(cat salt/.salt); } | openssl dgst -binary -sha256 | openssl enc -base64 -A
+{ echo -n myPassword; echo -n $(cat .salt); } | openssl dgst -binary -sha256 | openssl enc -base64 -A
 ```
 
 where `.salt` is a file containing the **salt**.
@@ -103,6 +103,8 @@ The ftp root (home for all user's directories) can be configured using the `LOGS
 ### Module mod_tls
 When enabling the module with env var MOD_TLS=ON, a module configuration file and associated certificates should be provided as binded volumes. Default included configuration expects a self-signed TLS certificate `proftpd.cert.pem` and it's key file `proftpd.key.pem`.
 
+A custom mod_tls configuration can be provided as a bound volume whose path is defined by the `MOD_TLS_CONF` env var.
+
 Certificates should be stored in a directory accessible by the docker image, whose path is to be provided as the `CERTS` env var.
 
 ### Module mod_exec
@@ -113,7 +115,7 @@ This file should be stored in a directory accessible by the docker image, whose 
 ### Module mod_vroot
 When enabling the module with env var MOD_VROOT=ON, a vroot.conf file containing the module configuration should be provided, as per the [module's documentation](http://www.proftpd.org/docs/contrib/mod_vroot.html)
 
-This file should be stored in a directory accessible by the docker image, whose path is to be provided as the `MOD_VROOT_CONF` env var.
+This file can be provided as a bound volume whose path is defined by the `MOD_VROOT_CONF` env var.
 
 ## Running with docker-compose, pulling image from docker hub
 
@@ -154,11 +156,11 @@ Following the previous sections, a number a env vars and volumes needs to be spe
 - **Volumes**:
   - **/srv/ftp** (_ftp root containing users' homes_)
   - **/var/log/proftpd** (_server's logs_)
-  - **/etc/proftpd/salt** (_dir containing `.salt` file_)
+  - **/etc/proftpd/.salt** (_`.salt` file_)
   - **/etc/proftpd/tls.conf** (_mod_tls config file_)
   - **/etc/proftpd/certs** (_dir containing server's certificates_)
   - **/etc/proftpd/exec** (_dir containing server's mod_exec conf and scripts_)
-  - **/etc/proftpd/vroot** (_dir containing server's mod_vroot conf_)
+  - **/etc/proftpd/vroot.conf** (_mod_vroot config file@_)
 
 The following `docker run` example assumes bound volumes, but the anykind of docker volume config can be used.
 
@@ -166,7 +168,6 @@ The following `docker run` example assumes bound volumes, but the anykind of doc
 ```sh
 docker build -t proftpd .
 ```
-
 * Start container and provide the necessary env vars and volume information:
 ```sh
 docker run --name proftpd --net=host \
@@ -174,14 +175,14 @@ docker run --name proftpd --net=host \
   -e MASQ_ADDR:AWS \
   -v /data/ftp_root:/srv/ftp \
   -v /var/log/proftpd:/var/log/proftpd \
-  -v $(pwd)/salt:/etc/proftpd/salt \
+  -v $(pwd)/.salt:/etc/proftpd/.salt \
   -e MOD_TLS=ON \
   -v $(pwd)/tls.conf:/etc/proftpd/tls.conf \
   -v $(pwd)/certs:/etc/proftpd/certs \
   -e MOD_EXEC=ON \
   -v $(pwd)/exec:/etc/proftpd/exec \
   -e MOD_VROOT=ON \
-  -v $(pwd)/vroot:/etc/proftpd/vroot
+  -v $(pwd)/vroot.conf:/etc/proftpd/vroot.conf
 	-d proftpd
 ```
 

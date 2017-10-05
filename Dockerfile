@@ -26,10 +26,15 @@ RUN cd proftpd && \
 RUN groupadd proftpd && \
   useradd -g proftpd proftpd
 
-# CONF FILES
+# MAIN CONF FILE
 COPY proftpd.conf /etc/proftpd/proftpd.conf
+
+# DEFAULT CONF FILES
 COPY tls.conf /etc/proftpd/tls.conf
 COPY sql.conf /etc/proftpd/sql.conf
+COPY vroot.conf /etc/proftpd/vroot.conf
+COPY ./certs /etc/proftpd/certs
+COPY ./exec /etc/proftpd/exec
 
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod a+x ./entrypoint.sh
@@ -39,18 +44,6 @@ VOLUME /var/log/proftpd
 
 # FTP ROOT
 VOLUME /srv/ftp
-
-# TLS CERTS
-VOLUME /etc/proftpd/certs
-
-# SQL PASSWORD SALT
-VOLUME /etc/proftpd/salt
-
-# MOD EXEC CONF
-VOLUME /etc/proftpd/exec
-
-# MOD VROOT CONF
-VOLUME /etc/proftpd/vroot
 
 EXPOSE 21 49152-49407
 
