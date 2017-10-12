@@ -24,8 +24,5 @@ services:
         source: "${MOD_EXEC_DIR:-./exec}"
         target: "/etc/proftpd/exec"
       - type: bind
-        source: "${SALT:-./.salt}"
-        target: "/etc/proftpd/.salt"
-      - type: bind
         source: "${MOD_VROOT_CONF:-./vroot.conf}"
         target: "/etc/proftpd/vroot.conf"

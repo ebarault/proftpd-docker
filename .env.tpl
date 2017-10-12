@@ -2,6 +2,9 @@ FTP_DB_HOST=    # db hostname or ip address, required
 FTP_DB_NAME=    # db name, required
 FTP_DB_USER=    # db user, required
 FTP_DB_PASS=    # db password, required
+FTP_DB_ADMIN=         # db user, required
+FTP_DB_ADMIN_PASS=    # db password, required
+FTP_PG_MIGRATE=       # ON/OFF, activate/deactivate
 
 FTP_ROOT=       # /path/to/ftp/root, optional, defaults to /data/ftp_root
 LOGS=           # /path/to/log/dir, optional, defaults to /var/log/proftpd

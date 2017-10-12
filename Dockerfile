@@ -36,6 +36,9 @@ COPY vroot.conf /etc/proftpd/vroot.conf
 COPY ./certs /etc/proftpd/certs
 COPY ./exec /etc/proftpd/exec
 
+# SQL MIGRATION TEMPLATE
+COPY sql/proftp_tables.sql.tpl /etc/proftpd/proftp_tables.sql.tpl
+
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod a+x ./entrypoint.sh
 
