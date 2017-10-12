@@ -21,6 +21,9 @@ The required/optional parameters are described here after:
 - **FTP_DB_NAME**: db name, required
 - **FTP_DB_USER**: db user, required
 - **FTP_DB_PASS**: db password, required
+- **FTP_DB_ADMIN**: db admin user, required if FTP_PG_MIGRATE=ON
+- **FTP_DB_ADMIN_PASS**: db admin password, required if FTP_PG_MIGRATE=ON
+- **FTP_PG_MIGRATE**: ON/OFF, activate/deactivate automatic creation of tables required by proftpd in postgresql database
 - **FTP_ROOT**: /path/to/ftp/root, optional, defaults to /data/ftp_root
 - **LOGS**: /path/to/log/dir, optional, defaults to /var/log/proftpd
 - **SALT**: /path/to/salt/file, optional, defaults to `./.salt`
@@ -44,6 +47,9 @@ Refer to this [link](http://www.proftpd.org/docs/howto/SQL.html) and on `sql/pro
 The migration should be run by a user with owner privilege on the designated database. The script supposes a second user exists beforehand, whose privileges are managed by the migration.
 
 The `FTP_DB_HOST`, `FTP_DB_NAME`, `FTP_DB_USER` and `FTP_DB_PASS` env vars should be provided to the container to configure proftpd's connection with the postgreSQL instance.
+
+### Automatic migration
+Env vars `FTP_DB_ADMIN` and `FTP_DB_ADMIN_PASS` can also be provided combined with option `FTP_PG_MIGRATE=ON` to automatically create the tables required by proftpd in the postgreSQL database.
 
 ### Create users and groups
 First create a group, or make sure an appropriate group already exists. The main attributes for groups are:
@@ -149,6 +155,9 @@ Following the previous sections, a number a env vars and volumes needs to be spe
   - `FTP_DB_NAME`
   - `FTP_DB_USER`
   - `FTP_DB_PASS`
+  - `FTP_DB_ADMIN`
+  - `FTP_DB_ADMIN_PASS`
+  - `FTP_PG_MIGRATE`
   - `MASQ_ADDR`
   - `MOD_TLS`
   - `MOD_EXEC`
