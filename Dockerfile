@@ -42,8 +42,8 @@ COPY sql/proftp_tables.sql.tpl /etc/proftpd/proftp_tables.sql.tpl
 COPY entrypoint.sh ./entrypoint.sh
 RUN chmod a+x ./entrypoint.sh
 
-# PROFTPD LOGS
-VOLUME /var/log/proftpd
+RUN mkdir /var/log/proftpd
+RUN ln -sf /dev/stdout /var/log/proftpd/proftpd.log
 
 # FTP ROOT
 VOLUME /srv/ftp
