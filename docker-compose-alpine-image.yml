@@ -6,11 +6,11 @@ services:
     image: ebarault/proftpd-docker:alpine-latest
     network_mode: host
     volumes:
+      # - type: bind
+      #   source: "${LOGS:-./var_log_proftpd}"
+      #   target: /var/log/proftpd
       - type: bind
-        source: "${LOGS:-/var/log/proftpd}"
-        target: /var/log/proftpd
-      - type: bind
-        source: "${FTP_ROOT:-/data/ftp_root}"
+        source: "${FTP_ROOT:-./data_ftp_root}"
         target: /srv/ftp
       - type: bind
         source: "${MOD_TLS_CONF:-./tls.conf}"
