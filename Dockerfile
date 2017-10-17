@@ -43,7 +43,6 @@ COPY entrypoint.sh ./entrypoint.sh
 RUN chmod a+x ./entrypoint.sh
 
 RUN mkdir /var/log/proftpd
-RUN ln -sf /dev/stdout /var/log/proftpd/proftpd.log
 
 # FTP ROOT
 VOLUME /srv/ftp

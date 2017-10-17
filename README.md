@@ -24,6 +24,7 @@ The required/optional parameters are described here after:
 - **FTP_DB_ADMIN**: db admin user, required if FTP_PG_MIGRATE=ON
 - **FTP_DB_ADMIN_PASS**: db admin password, required if FTP_PG_MIGRATE=ON
 - **FTP_PG_MIGRATE**: ON/OFF, activate/deactivate automatic creation of tables required by proftpd in postgresql database
+- **FTP_VERBOSE**: ON/UNDEF, activate/deactivate logging to files
 - **FTP_ROOT**: /path/to/ftp/root, optional, defaults to /data/ftp_root
 - **LOGS**: /path/to/log/dir, optional, defaults to /var/log/proftpd
 - **SALT**: /path/to/salt/file, optional, defaults to `./.salt`
@@ -104,7 +105,7 @@ The env var `MASQ_ADDR` can be set to either a given IP address or hostame, or t
 The ftp root (home for all user's directories) can be configured using the `FTP_ROOT` env variable. Otherwise it default to the directory `/data/ftp_root` of the docker's host.
 
 ### Configuring proftpd logs directory
-The ftp root (home for all user's directories) can be configured using the `LOGS` env variable. Otherwise it default to the directory `/var/log/proftpd` of the docker's host.
+When setting verbose mode ON with env var `FTP_VERBOSE`, the log directory can be configured using the `LOGS` env variable. Otherwise it default to the directory `/var/log/proftpd` of the docker's host.
 
 ### Module mod_tls
 When enabling the module with env var MOD_TLS=ON, a module configuration file and associated certificates should be provided as binded volumes. Default included configuration expects a self-signed TLS certificate `proftpd.cert.pem` and it's key file `proftpd.key.pem`.
@@ -158,6 +159,7 @@ Following the previous sections, a number a env vars and volumes needs to be spe
   - `FTP_DB_ADMIN`
   - `FTP_DB_ADMIN_PASS`
   - `FTP_PG_MIGRATE`
+  - `FTP_VERBOSE`
   - `MASQ_ADDR`
   - `MOD_TLS`
   - `MOD_EXEC`

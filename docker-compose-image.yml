@@ -6,9 +6,9 @@ services:
     image: ebarault/proftpd-docker:latest
     network_mode: host
     volumes:
-      # - type: bind
-      #   source: "${LOGS:-./var_log_proftpd}"
-      #   target: /var/log/proftpd
+      - type: bind
+        source: "${LOGS:-./var_log_proftpd}"
+        target: /var/log/proftpd
       - type: bind
         source: "${FTP_ROOT:-./data_ftp_root}"
         target: /srv/ftp
